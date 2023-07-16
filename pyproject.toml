@@ -18,7 +18,7 @@ maintainers = [
 Homepage = "https://github.com/LowByteNeko/artix-iso-util"
 
 [project.scripts]
-artix-iso-util = "artix-iso-util:main"
+artixisoutil = "artixisoutil:main"
 
 [build-system]
 requires = ["setuptools>=43.0.0", "wheel"]
