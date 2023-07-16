@@ -1,0 +1,25 @@
+[project]
+name = "artix-iso-util"
+description = "Simple tool for easier artix iso building + custom profile support"
+version = "0.0.1"
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = ["util", "cli", "artix", "iso"]
+license = { file = "LICENSE" }
+
+authors = [
+    { name = "LowByteNeko", email = "lowbyteneko@gmail.com" }
+]
+maintainers = [
+    { name = "LowByteNeko", email = "lowbyteneko@gmail.com" }
+]
+
+[project.urls]
+Homepage = "https://github.com/LowByteNeko/artix-iso-util"
+
+[project.scripts]
+artix-iso-util = "artix-iso-util:main"
+
+[build-system]
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
