@@ -1,4 +1,5 @@
 import argparse
+from .artools import prepare
 
 
 def main():
@@ -12,4 +13,7 @@ def main():
                         help="Actions to be executed in order")
 
     args = parser.parse_args()
-    print(args)
+    arr = args.action
+
+    if "init-artools" in arr:
+        prepare()
