@@ -1,5 +1,5 @@
 import argparse
-from .artools import prepare
+from .artools import prepare, init_proj
 
 
 def main():
@@ -17,3 +17,6 @@ def main():
 
     if "init-artools" in arr:
         prepare()
+
+    if "init" in arr:
+        init_proj()

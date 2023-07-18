@@ -1,6 +1,7 @@
 from .pacman import check_pkgs
 from .logger import logError, logSuccess
-from os import mkdir, getenv, path
+from .configs import baseGen, isoGen
+from os import mkdir, getenv, path, getcwd
 from shutil import copy
 
 
@@ -28,3 +29,8 @@ def prepare():
               f"{home}/.config/artools/artools-pkg.conf")
 
     logSuccess("Basic artools config initialized")
+
+
+def init_proj():
+    cwd = getcwd()
+    print(baseGen(cwd))
