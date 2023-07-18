@@ -1,13 +1,25 @@
 from .pacman import check_pkgs
 from .logger import logError, logSuccess
 from .configs import baseGen, isoGen
-from os import mkdir, getenv, path, getcwd
+from os import mkdir, getenv, path, getcwd, chdir
 from shutil import copy
 
 
 def copyIfNot(src, dest):
     if not path.exists(dest):
         copy(src, dest)
+
+
+def getMangedInput(prompt, default, check, failMsg):
+    val = ""
+    while not check(val):
+        try:
+            val = input(prompt)
+            if not check(val):
+                print(failMsg)
+        except:
+            val = default
+    return val
 
 
 def prepare():
@@ -32,5 +44,19 @@ def prepare():
 
 
 def init_proj():
+    name = getMangedInput("Type name of your project: ", "",
+                          lambda p: len(p.strip()) > 0, "Enter project name")
+    name = name.strip()
+
+    if path.exists(name):
+        logError(f"Directory \"{name}\" already exists!")
+
+    mkdir(name)
+    chdir(name)
     cwd = getcwd()
-    print(baseGen(cwd))
+    home = getenv("HOME")
+
+    with open(f"{home}/.config/artools/artools-base.conf", "w") as f:
+        f.write(baseGen(cwd))
+
+    chdir("..")
