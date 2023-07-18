@@ -1,5 +1,5 @@
 import argparse
-from .artools import prepare, init_proj
+from .artools import prepare, init_proj, build_proj
 
 
 def main():
@@ -9,7 +9,7 @@ def main():
 
     parser.add_argument("action", metavar="ACTION", type=str, nargs="+",
                         choices=["init-artools", "init", "build",
-                                 "iso", "test"],
+                                 ],
                         help="Actions to be executed in order")
 
     args = parser.parse_args()
@@ -20,3 +20,6 @@ def main():
 
     if "init" in arr:
         init_proj()
+
+    if "build" in arr:
+        build_proj()

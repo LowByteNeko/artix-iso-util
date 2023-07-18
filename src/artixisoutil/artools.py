@@ -1,7 +1,9 @@
 from .pacman import check_pkgs
 from .logger import logError, logSuccess
-from os import mkdir, getenv, path, chdir
+from .configs import baseGen, isoGen
+from os import mkdir, getenv, path, chdir, popen, getcwd, system, symlink
 from shutil import copy
+import tomllib
 
 
 def copyIfNot(src, dest):
@@ -99,7 +101,47 @@ level = {strength}
 type = "{init}"
 services = ["acpid", "cronie", "metalog"]
 """)
+    popen("cp -r /usr/share/artools/iso-profiles/base/* .").read()
 
     chdir("..")
 
     logSuccess("Project initialized!")
+
+
+def build_proj():
+    data = {}
+    if not path.exists("./workspace.toml"):
+        logError("File \"workspace.toml\" doesn't exist")
+
+    with open("./workspace.toml", "rb") as f:
+        data = tomllib.load(f)
+
+    cwd = getcwd()
+
+    version = data["iso"]["version"]
+    compr = data["iso"]["compression"]
+    compr_type = compr["type"]
+    level = compr["level"]
+
+    init = data["iso"]["init"]
+    init_type = init["type"]
+
+    home = getenv("HOME")
+
+    with open(f"{home}/.config/artools/artools-base.conf", "w") as f:
+        f.write(baseGen(cwd))
+
+    if not path.exists(path.join(cwd, "iso-profiles")):
+        mkdir(path.join(cwd, "iso-profiles"))
+        symlink(cwd, path.join(path.join(cwd, "iso-profiles"),
+                               path.basename(cwd)))
+
+    with open(f"{home}/.config/artools/artools-iso.conf", "w") as f:
+        f.write(isoGen(cwd, version, init_type, compr_type, level))
+
+    try:
+        system(f"buildiso -p {path.basename(cwd)}")
+    except:
+        logError("Something went wrong!")
+
+    logSuccess("Iso built successfully")

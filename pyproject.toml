@@ -1,7 +1,7 @@
 [project]
 name = "artix-iso-util"
 description = "Simple tool for easier artix iso building + custom profile support"
-version = "0.0.5"
+version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.11"
 keywords = ["util", "cli", "artix", "iso"]
